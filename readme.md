@@ -109,14 +109,35 @@ La tienda estará disponible en: http://localhost:8080
 ```
 proyecto/
 ├── backend/
-│   ├── config/
 │   ├── models/
+│   │   ├── admin.js
+│   │   ├── product.js
+│   │   └── order.js
+│   ├── public/
+│   │   └── css/
+│   │       └── style.css
 │   ├── routes/
+│   │   ├── auth.js
+│   │   ├── products.js
+│   │   └── orders.js
+│   ├── utils/
+│   │   └── tokenUtils.js
 │   ├── views/
+│   │   ├── layout.pug
+│   │   ├── login.pug
+│   │   ├── products.pug
+│   │   ├── products-add.pug
+│   │   ├── products-edit.pug
+│   │   └── orders.pug
+│   ├── .env
+│   ├── package.json
 │   └── server.js
 └── frontend/
     ├── main.go
     └── templates/
+        ├── index.html
+        ├── checkout.html
+        └── success.html
 ```
 
 ## Solución de Problemas Comunes
