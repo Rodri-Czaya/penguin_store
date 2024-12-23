@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        title 
+            block title
+                | Admin Panel
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        nav.navbar
+            .nav-brand Admin Panel
+            .nav-links
+                if token
+                    a(href=`/products?token=${token}`) Products
+                    a(href=`/orders?token=${token}`) Orders
+        
+        .container
+            block content
+
+        block scripts
