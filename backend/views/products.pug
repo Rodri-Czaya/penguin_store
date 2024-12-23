@@ -1,0 +1,78 @@
+doctype html
+html
+    head
+        title Products Dashboard
+        style.
+            body { 
+                padding: 20px; 
+                font-family: Arial, sans-serif;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .nav-links {
+                display: flex;
+                gap: 15px;
+            }
+            .button {
+                padding: 10px 20px;
+                border-radius: 4px;
+                text-decoration: none;
+                color: white;
+            }
+            .add-button {
+                background: #4CAF50;
+            }
+            .view-orders {
+                background: #3498db;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f4f4f4;
+            }
+            .edit-button {
+                background: #2196F3;
+                color: white;
+                padding: 6px 12px;
+                text-decoration: none;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+    body
+        div.header
+            h1 Products Dashboard
+            div.nav-links
+                a.button.add-button(href=`/products/add?token=${token}`) Add New Product
+                a.button.view-orders(href=`/orders?token=${token}`) View Orders
+        
+        if products && products.length > 0
+            table
+                thead
+                    tr
+                        th Name
+                        th Price
+                        th Description
+                        th Actions
+                tbody
+                    each product in products
+                        tr
+                            td= product.name
+                            td= `$${product.price}`
+                            td= product.description
+                            td
+                                a.edit-button(href=`/products/edit/${product._id}?token=${token}`) Edit
+        else
+            div(style="text-align: center; margin-top: 50px;")
+                p No products found in the database.
+                p Click the "Add New Product" button to create your first product.

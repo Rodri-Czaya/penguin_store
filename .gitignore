@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# OS generated files
+.DS_Store
+
+# Environment variables
+backend/.env
+
+# Build artifacts/generated files
+scripts/
+middleware/
+
+# Logs
+*.log

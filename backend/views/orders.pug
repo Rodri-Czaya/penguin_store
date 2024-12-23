@@ -1,0 +1,82 @@
+doctype html
+html
+    head
+        title Admin - Orders
+        style.
+            body { 
+                padding: 20px; 
+                font-family: Arial, sans-serif;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .nav-links a {
+                margin-left: 15px;
+                text-decoration: none;
+                color: #3498db;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+            th {
+                background-color: #f4f4f4;
+            }
+            .order-details {
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f9f9f9;
+                border-radius: 4px;
+            }
+            .status-completed {
+                color: #27ae60;
+                font-weight: bold;
+            }
+            .no-orders {
+                text-align: center;
+                margin-top: 50px;
+                color: #666;
+            }
+    body
+        div.header
+            h1 Orders Dashboard
+            div.nav-links
+                a(href=`/products?token=${token}`) Back to Products
+        
+        if orders && orders.length > 0
+            table
+                thead
+                    tr
+                        th Customer Name
+                        th Address
+                        th Total Amount
+                        th Status
+                        th Order Details
+                tbody
+                    each order in orders
+                        tr
+                            td= order.customerName || 'N/A'
+                            td= order.address || 'N/A'
+                            td $#{(order.totalAmount || 0).toFixed(2)}
+                            td.status-completed= order.status || 'completed'
+                            td
+                                div.order-details
+                                    if order.products && order.products.length > 0
+                                        strong Products:
+                                        each product in order.products
+                                            div= `${product.productName || 'Unknown Product'} - Quantity: ${product.quantity || 0}`
+                                    else
+                                        div No product details available
+        else
+            div.no-orders
+                p No orders found.
+                p Orders placed by customers will appear here.
