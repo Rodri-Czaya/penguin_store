@@ -1,108 +1,64 @@
-doctype html
-html
-    head
-        title Add New Product
-        style.
-            body { 
-                padding: 20px; 
-                font-family: Arial, sans-serif;
-            }
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-            }
-            .form-group {
-                margin-bottom: 15px;
-            }
-            label {
-                display: block;
-                margin-bottom: 5px;
-            }
-            input, textarea {
-                width: 100%;
-                padding: 8px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-            }
-            button {
-                background: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            button:hover {
-                background: #45a049;
-            }
-            .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-            }
-            .back-link {
-                color: #666;
-                text-decoration: none;
-            }
-    body
-        div.container
-            div.header
-                h1 Add New Product
-                a.back-link(href=`/products?token=${token}`) ← Back to Products
+extends layout
+
+block title
+    | Add New Product
+
+block content
+    .form-container
+        .form-header
+            h1 Add New Product
+            a.back-link(href=`/products?token=${token}`) ← Back to Products
+        
+        form#addProductForm
+            .form-group
+                label(for="name") Product Name
+                input#name(type="text", name="name", required)
             
-            form#addProductForm
-                div.form-group
-                    label(for="name") Product Name
-                    input(type="text", name="name", required)
-                
-                div.form-group
-                    label(for="price") Price ($)
-                    input(type="number", name="price", step="0.01", required)
-                
-                div.form-group
-                    label(for="description") Description
-                    textarea(name="description", rows="4")
-                
-                div.form-group
-                    label(for="imageUrl") Image URL (optional)
-                    input(type="text", name="imageUrl")
-                
-                button(type="submit") Add Product
-
-        script.
-            // Store token from server
-            const serverToken = '#{token}';
+            .form-group
+                label(for="price") Price ($)
+                input#price(type="number", name="price", step="0.01", required)
             
-            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const formData = new FormData(e.target);
-                const data = {
-                    name: formData.get('name'),
-                    price: parseFloat(formData.get('price')),
-                    description: formData.get('description'),
-                    imageUrl: formData.get('imageUrl')
-                };
+            .form-group
+                label(for="description") Description
+                textarea#description(name="description", rows="4")
+            
+            .form-group
+                label(for="imageUrl") Image URL (optional)
+                input#imageUrl(type="text", name="imageUrl")
+            
+            button.submit-button(type="submit") Add Product
 
-                try {
-                    const response = await fetch('/products', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${serverToken}`
-                        },
-                        body: JSON.stringify(data)
-                    });
+block scripts
+    script.
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                price: parseFloat(formData.get('price')),
+                description: formData.get('description'),
+                imageUrl: formData.get('imageUrl')
+            };
 
-                    if (response.ok) {
-                        window.location.href = `/products?token=${serverToken}`;
-                    } else {
-                        const error = await response.json();
-                        alert(error.message || 'Error creating product');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Error creating product');
+            try {
+                const response = await fetch('/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer #{token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    window.location.href = `/products?token=#{token}`;
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Error creating product');
                 }
-            });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error creating product');
+            }
+        });
