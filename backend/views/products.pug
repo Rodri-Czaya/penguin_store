@@ -24,9 +24,34 @@ block content
                         td= product.description
                         td
                             a.button.edit-button(href=`/products/edit/${product._id}?token=${token}`) Edit
-
+                            button.button.delete-button(onclick=`deleteProduct('${product._id}')`) Delete
     else
         .card
             p.text-center No products found in the database.
             p.text-center Click the "Add New Product" button to create your first product.
 
+block scripts
+    script.
+        async function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer #{token}`
+                    }
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Error deleting product');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting product');
+            }
+        }
