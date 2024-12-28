@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Admin = require('../models/admin');
-const authMiddleware = require('../middleware/authMiddleware');
 
 // Check if JWT_SECRET is configured
 if (!process.env.JWT_SECRET) {
